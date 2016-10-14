@@ -15,10 +15,46 @@
 
 (define runner (test-runner-simple))
 
-(test-with-runner 
- runner 
- (test-group "Tests recognition of XML tags"
-             (test-group "Simple self-closing tag"
-                         (define br "<br />")
-                         (define node (make-xml-instance-node br))
-                         (test-assert (string=? "br" (get-value node))))))
+
+(let ((br "<br />")
+      (img "<img src=\"http://foo.bar/guys.gif\" alt=\"Photo of Guy Steele and Guy Fieri (how did those two meet?\" />")
+      (par))
+  (test-with-runner runner 
+    (test-group "Test creating node from a set of pre-parsed XML elements" 
+      (test-group "Simple self-closing tag"
+        (test-assert (string=? "br" (get-element node))))
+      (test-group "Self-closing tag with attributes"
+        (define node (parse-xml img))
+        (test-assert (string=? "img" (get-element node))))
+      (test-group "Simple start tag"
+        (define node (make-xml-instance-node br))
+        (test-assert (string=? "br" (get-element node))))
+      (test-group "Simple self-closing tag"
+        (define node (make-xml-instance-node br))
+        (test-assert (string=? "br" (get-element node))))
+      (test-group "Simple self-closing tag"
+        (define node (make-xml-instance-node br))
+        (test-assert (string=? "br" (get-element node))))
+      (test-group "Simple self-closing tag"
+        (define node (make-xml-instance-node br))
+        (test-assert (string=? "br" (get-element node)))))))
+    
+;    (test-group "Tests recognition of XML tags"       
+;      (test-group "Simple self-closing tag"
+;        (let ((node (parse-xml br))
+;              (test-assert (string=? "br" (get-element node))))))
+;      (test-group "Self-closing tag with attributes"
+;        (let ((node (parse-xml img))
+;              (test-assert (string=? "img" (get-element node))))))
+;      (test-group "Simple start tag"
+;        (let ((node (parse-xml img))
+;              (test-assert (string=? "img" (get-element node))))))
+;      (test-group "Simple self-closing tag"
+;        (let ((node (parse-xml img))
+;              (test-assert (string=? "img" (get-element node))))))
+;      (test-group "Simple self-closing tag"
+;        (let ((node (parse-xml img))
+;              (test-assert (string=? "img" (get-element node))))))
+;      (test-group "Simple self-closing tag"
+;        (let ((node (parse-xml img))
+;              (test-assert (string=? "img" (get-element node)))))))))
